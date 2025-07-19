@@ -1,10 +1,21 @@
-import { Button } from "@/components/ui/button";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import HomeView from "@/views/HomeView";
+import ListView from "@/views/ListView";
+import NotFoundView from "./views/NotFoundView";
+import BaseLayout from "./layouts/BaseLayout";
 
 function App() {
   return (
-    <div className="">
-      <Button>Click me</Button>
-    </div>
+    <BrowserRouter>
+      <BaseLayout>
+        <Routes>
+          <Route index path="/" element={<HomeView />} />
+          <Route path="/list" element={<ListView />} />
+          <Route path="*" element={<NotFoundView />} />
+        </Routes>
+      </BaseLayout>
+    </BrowserRouter>
   );
 }
 
