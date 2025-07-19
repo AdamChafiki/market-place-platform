@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // Use latest JS features
+    "module": "ESNext", // For ES module support
+    "moduleResolution": "node", // Allow Node-style imports
+    "esModuleInterop": true, // Allow default imports from CommonJS (like express, cors)
+    "allowSyntheticDefaultImports": true, // Smooth default import compatibility
+    "outDir": "./dist", // Compiled output directory
+    "resolveJsonModule": true, // Allow importing JSON files
+    "strict": true, // Enable strict type-checking (highly recommended)
+    "forceConsistentCasingInFileNames": true, // Prevent case-related import bugs
+    "noImplicitAny": true, // Warn if types are missing
+    "skipLibCheck": true // Speeds up build by skipping type checks on dependencies
+  },
+  "include": ["src"], // Compile only your source code
+  "exclude": ["node_modules", "dist"] // Ignore these folders
+}
