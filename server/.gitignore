@@ -24,3 +24,5 @@ Thumbs.db
 
 # tsx watch temp
 .tmp/
+
+/generated/prisma

@@ -2,8 +2,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import HomeView from "@/views/HomeView";
 import ListView from "@/views/ListView";
-import NotFoundView from "./views/NotFoundView";
-import BaseLayout from "./layouts/BaseLayout";
+import NotFoundView from "@/views/NotFoundView";
+import BaseLayout from "@/layouts/BaseLayout";
+import LoginView from "@/views/LoginView";
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
       <BaseLayout>
         <Routes>
           <Route index path="/" element={<HomeView />} />
-          <Route path="/list" element={<ListView />} />
+          <Route path="/Browze" element={<ListView />} />
+          <Route path="/login" element={<LoginView />} />
           <Route path="*" element={<NotFoundView />} />
         </Routes>
       </BaseLayout>

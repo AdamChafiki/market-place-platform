@@ -16,31 +16,28 @@ function Navbar() {
     <header className="py-4">
       <nav className="flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center space-x-2">
-          <Sparkles className="w-6 h-6 text-primary" />
-          <h2 className="text-xl font-bold tracking-tight text-primary font-sans">
-            Findora
-          </h2>
-        </Link>
+        <div className="flex items-center space-x-4">
+          <Link to="/" className="flex items-center space-x-2">
+            <Sparkles className="w-6 h-6 text-primary" />
+            <h2 className="text-xl font-bold tracking-tight text-primary font-sans">
+              Findora
+            </h2>
+          </Link>
+          <ul className="flex items-center space-x-4">
+            <li>
+              <NavLink to="/Browze" className={getNavLinkClass}>
+                Browze
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/boutique" className={getNavLinkClass}>
+                Boutique
+              </NavLink>
+            </li>
+          </ul>
+        </div>
 
         {/* Navigation Links */}
-        <ul className="flex items-center space-x-4">
-          <li>
-            <NavLink to="/" className={getNavLinkClass}>
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/list" className={getNavLinkClass}>
-              List
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/boutique" className={getNavLinkClass}>
-              Boutique
-            </NavLink>
-          </li>
-        </ul>
 
         {/* Action Buttons */}
         <ul className="flex space-x-4 items-center">

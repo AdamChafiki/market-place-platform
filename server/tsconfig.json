@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "target": "ESNext", // Use latest JS features
     "module": "ESNext", // For ES module support
     "moduleResolution": "node", // Allow Node-style imports
