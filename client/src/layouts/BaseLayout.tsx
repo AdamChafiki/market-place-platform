@@ -5,7 +5,7 @@ function BaseLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="mx-auto container">
       <Navbar />
-      <main className="min-h-screen mt-5">{children}</main>
+      <main className="min-h-screen">{children}</main>
       <Footer />
     </div>
   );

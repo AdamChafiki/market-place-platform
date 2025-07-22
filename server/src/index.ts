@@ -6,7 +6,7 @@ import compression from 'compression';
 
 import errorHandler from '@/middlewares/errorHandler';
 import config from '@/config/config';
-import { authRouter } from '@/routes/authRouter';
+import authRouter from './routes/authRouter';
 
 const app = express();
 
@@ -16,7 +16,12 @@ app
   .use(compression())
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
-  .use(cors());
+  .use(
+    cors({
+      origin: 'http://localhost:5173',
+      credentials: true,
+    })
+  );
 
 app.use('/api/auth', authRouter);
 
