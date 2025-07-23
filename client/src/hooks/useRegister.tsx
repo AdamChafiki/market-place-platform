@@ -3,7 +3,11 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 export default function useRegister() {
-  const { mutate: signup, isPending } = useMutation({
+  const {
+    mutate: signup,
+    isPending,
+    error,
+  } = useMutation({
     mutationFn: registerUser,
     onSuccess: (user) => {
       console.log(user);
@@ -11,5 +15,5 @@ export default function useRegister() {
     },
   });
 
-  return { signup, isLoading: isPending };
+  return { signup, isLoading: isPending, error };
 }

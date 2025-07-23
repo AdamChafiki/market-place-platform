@@ -8,6 +8,7 @@ import {
   generateRefreshToken,
   verifyRefreshToken,
 } from '@/utils/jwtUtils';
+import config from '@/config/config';
 
 /**
  * @description Register User
@@ -72,10 +73,9 @@ const login = async (
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // HTTPS only in prod
-      sameSite: 'strict',
+      secure: config.nodeEnv === 'production', // HTTPS only in prod
+      sameSite: 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in ms
-      path: '/auth/refresh-token', // restrict cookie to refresh endpoint
     });
 
     res.json({ accessToken });

@@ -37,7 +37,7 @@ const step1Schema = formSchema.pick({
 
 function RegisterForm() {
   const [step, setStep] = useState<1 | 2>(1);
-  const { signup, isLoading } = useRegister();
+  const { signup, isLoading, error } = useRegister();
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -68,6 +68,7 @@ function RegisterForm() {
         setStep(2);
       }
     } catch (error) {
+      console.log(error);
       await form.trigger(["username", "email", "password"]);
     }
   };
@@ -264,6 +265,11 @@ function RegisterForm() {
           </Link>
         </p>
       </motion.div>
+      {error && (
+        <div className="mt-4 text-red-500 text-center">
+          {error.message || "An error occurred. Please try again."}
+        </div>
+      )}
     </div>
   );
 }

@@ -13,7 +13,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { useLogin } from "@/hooks/useLogin";
+import { toast } from "sonner";
+import { Toaster } from "sonner";
 
 const formSchema = z.object({
   email: z.email({ message: "Invalid email address" }),
@@ -30,14 +34,27 @@ function LoginForm() {
       password: "",
     },
   });
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values); // handle login
+  const login = useLogin();
+  const navigate = useNavigate();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      await login.mutateAsync(values);
+      toast.success("Login successful");
+      navigate("/dashboard"); // or wherever you want
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || "Login failed");
+    }
   }
 
   return (
-    <div className="min-h-screen  flex items-center justify-center bg-background text-foreground">
-      <div className="w-full max-w-md bg-card text-card-foreground rounded-[var(--radius)] shadow-lg p-8">
+    <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
+      <Toaster position="bottom-right" richColors />
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md bg-card text-card-foreground rounded-[var(--radius)] shadow-lg p-8"
+      >
         <h2 className="text-2xl font-bold mb-6 text-center">
           Login to your account
         </h2>
@@ -98,7 +115,7 @@ function LoginForm() {
             Register
           </Link>
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 }
