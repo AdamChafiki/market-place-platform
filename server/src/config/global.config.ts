@@ -7,9 +7,10 @@ interface Config {
   nodeEnv: string;
   databaseUrl: string;
   authSecret: string;
-  authSecretExpiresIn: string;
+  authSecretExpiresIn: number;
   authRefreshSecret: string;
-  authRefreshSecretExpiresIn: string;
+  authRefreshSecretExpiresIn: number;
+  clientUrl: string;
 }
 
 const config: Config = {
@@ -17,11 +18,12 @@ const config: Config = {
   nodeEnv: process.env.NODE_ENV || 'development',
   databaseUrl: process.env.DATABASE_URL || 'error',
   authSecret: process.env.AUTH_SECRET || 'default_access_secret',
-  authSecretExpiresIn: process.env.AUTH_SECRET_EXPIRES_IN || '15m',
+  authSecretExpiresIn: Number(process.env.AUTH_SECRET_EXPIRES_IN) || 15,
   authRefreshSecret:
     process.env.AUTH_REFRESH_SECRET || 'default_refresh_secret',
   authRefreshSecretExpiresIn:
-    process.env.AUTH_REFRESH_SECRET_EXPIRES_IN || '7d',
+    Number(process.env.AUTH_REFRESH_SECRET_EXPIRES_IN) || 7,
+  clientUrl: process.env.CLIENT_URL || 'http://localhost:5173',
 };
 
 export default config;

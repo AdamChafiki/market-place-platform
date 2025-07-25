@@ -1,6 +1,6 @@
-import { verifyAccessToken } from '@/utils/jwtUtils';
+import { verifyAccessToken } from '@/utils/Jwt';
 import { Request, Response, NextFunction } from 'express';
-import de from 'zod/v4/locales/de.cjs';
+import { StatusCodes } from 'http-status-codes';
 
 declare global {
   namespace Express {
@@ -10,7 +10,7 @@ declare global {
   }
 }
 
-const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+const jwtMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(401).json({ error: 'No token provided' });
 
@@ -20,8 +20,10 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     req.user = decoded;
     next();
   } catch (err) {
-    res.status(403).json({ error: 'Invalid or expired token' });
+    res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ error: 'Invalid or expired token' });
   }
 };
 
-export default authMiddleware;
+export default jwtMiddleware;

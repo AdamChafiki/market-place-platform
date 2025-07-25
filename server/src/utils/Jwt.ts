@@ -1,4 +1,4 @@
-import config from '@/config/config';
+import config from '@/config/global.config';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
 interface TokenPayload extends JwtPayload {
