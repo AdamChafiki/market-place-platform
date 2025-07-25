@@ -39,8 +39,7 @@ function LoginForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       await login.mutateAsync(values);
-      toast.success("Login successful");
-      navigate("/dashboard"); // or wherever you want
+      navigate("/"); // or wherever you want
     } catch (err: any) {
       toast.error(err?.response?.data?.message || "Login failed");
     }
@@ -48,7 +47,6 @@ function LoginForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
-      <Toaster position="bottom-right" richColors />
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -99,6 +97,7 @@ function LoginForm() {
             />
             <Button
               type="submit"
+              disabled={login.isLoading}
               className="w-full bg-primary cursor-pointer text-primary-foreground hover:bg-[oklch(0.6_0.2_47)] transition-all"
             >
               Login

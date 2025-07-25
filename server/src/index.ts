@@ -7,10 +7,12 @@ import compression from 'compression';
 import errorHandler from '@/middlewares/errorHandler';
 import config from '@/config/config';
 import authRouter from './routes/authRouter';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
 app
+  .use(cookieParser())
   .use(helmet())
   .use(morgan('dev'))
   .use(compression())

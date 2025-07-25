@@ -69,7 +69,7 @@ const login = async (
       return res.status(400).json({ message: 'Invalid credentials' });
     }
     const accessToken = generateAccessToken(user.id);
-    const refreshToken = generateAccessToken(user.id);
+    const refreshToken = generateRefreshToken(user.id);
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
@@ -93,6 +93,7 @@ const login = async (
 
 export const refreshToken = (req: Request, res: Response) => {
   const token = req.cookies.refreshToken;
+  console.log('Refresh token:', token);
 
   if (!token)
     return res.status(401).json({ message: 'No refresh token provided' });
@@ -110,7 +111,7 @@ export const refreshToken = (req: Request, res: Response) => {
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      path: '/auth/refresh-token',
+      path: '/login',
     });
 
     res.json({ accessToken: newAccessToken });
@@ -129,6 +130,21 @@ export const refreshToken = (req: Request, res: Response) => {
 export const logout = (req: Request, res: Response) => {
   res.clearCookie('refreshToken', { path: '/auth/refresh-token' });
   res.status(200).json({ message: 'Logged out successfully' });
+};
+
+export const profile = async (req: Request, res: Response) => {
+  try {
+    console.log('User ID from middleware:', req.user);
+
+    const user: User | null = await prisma.user.findUnique({
+      where: { id: req.user.userId },
+    });
+    console.log('User profile:', user);
+
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
 };
 
 export { login, register };
