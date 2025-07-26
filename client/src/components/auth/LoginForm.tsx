@@ -16,7 +16,6 @@ import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useLogin } from "@/hooks/useLogin";
-import { toast } from "sonner";
 import { Toaster } from "sonner";
 
 const formSchema = z.object({
@@ -27,6 +26,8 @@ const formSchema = z.object({
 });
 
 function LoginForm() {
+  const login = useLogin();
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -34,19 +35,14 @@ function LoginForm() {
       password: "",
     },
   });
-  const login = useLogin();
-  const navigate = useNavigate();
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      await login.mutateAsync(values);
-      navigate("/"); // or wherever you want
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Login failed");
-    }
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    login.mutate(values);
+    navigate("/");
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
+      <Toaster position="bottom-right" richColors />
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -97,10 +93,11 @@ function LoginForm() {
             />
             <Button
               type="submit"
-              disabled={login.isLoading}
+              disabled={login.isPending}
               className="w-full bg-primary cursor-pointer text-primary-foreground hover:bg-[oklch(0.6_0.2_47)] transition-all"
             >
               Login
+              {login.isPending && <span className="ml-2 animate-spin">🔄</span>}
             </Button>
           </form>
         </Form>

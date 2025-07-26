@@ -1,4 +1,5 @@
 import api from "@/lib/axios";
+import axios from "axios";
 
 interface RegisterInput {
   username: string;
@@ -14,4 +15,9 @@ export const registerUser = async (data: RegisterInput) => {
 export const fetchProfile = async () => {
   const { data } = await api.get("/auth/profile");
   return data.user;
+};
+
+export const testApi = async () => {
+  const { data } = await axios.get("http://localhost:8000/tesst");
+  return data;
 };

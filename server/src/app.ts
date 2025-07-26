@@ -26,7 +26,7 @@ app.use(
 );
 
 app.get('/test', (req, res) => {
-  res.json({ message: 'Server working', ip: req.ip });
+  res.json({ username: 'test', email: 'test@gmail.com' });
 });
 
 app.use('/api/auth', authRouter);

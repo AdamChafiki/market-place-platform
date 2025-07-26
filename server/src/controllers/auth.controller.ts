@@ -14,6 +14,7 @@ import {
 import config from '@/config/global.config';
 import { registerUser } from '@/services/auth.service';
 import RegisterUserInterface from '@/types/register.type';
+import { AppError } from '@/utils/AppError';
 
 /**
  * @description Register User
@@ -30,8 +31,7 @@ export const register = asyncHandler(
     });
 
     if (existingUser) {
-      res.status(StatusCodes.BAD_REQUEST);
-      throw new Error('Email already exists');
+      throw new AppError('Email already exists', StatusCodes.BAD_REQUEST);
     }
 
     const user = await registerUser({
@@ -66,14 +66,12 @@ export const login = asyncHandler(
     });
 
     if (!user) {
-      res.status(StatusCodes.BAD_REQUEST);
-      throw new Error('Invalid credentials');
+      throw new AppError('Invalid credentials', StatusCodes.BAD_REQUEST);
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      res.status(StatusCodes.BAD_REQUEST);
-      throw new Error('Invalid credentials');
+      throw new AppError('Invalid credentials', StatusCodes.BAD_REQUEST);
     }
 
     const accessToken = generateAccessToken(user.id);
@@ -86,7 +84,7 @@ export const login = asyncHandler(
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    res.json({ accessToken });
+    res.status(StatusCodes.OK).json({ accessToken });
   }
 );
 
@@ -101,8 +99,7 @@ export const refreshToken = asyncHandler(
     const token = req.cookies.refreshToken;
 
     if (!token) {
-      res.status(StatusCodes.UNAUTHORIZED);
-      throw new Error('No refresh token provided');
+      throw new AppError('No refresh token provided', StatusCodes.UNAUTHORIZED);
     }
 
     const payload = verifyRefreshToken(token) as { userId: number };
@@ -118,7 +115,7 @@ export const refreshToken = asyncHandler(
       path: '/login',
     });
 
-    res.json({ accessToken: newAccessToken });
+    res.status(StatusCodes.OK).json({ accessToken: newAccessToken });
   }
 );
 
@@ -130,5 +127,5 @@ export const refreshToken = asyncHandler(
  */
 export const logout = asyncHandler(async (req: Request, res: Response) => {
   res.clearCookie('refreshToken', { path: '/auth/refresh-token' });
-  res.status(200).json({ message: 'Logged out successfully' });
+  res.status(StatusCodes.OK).json({ message: 'Logged out successfully' });
 });

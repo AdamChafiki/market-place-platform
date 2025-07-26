@@ -1,5 +1,4 @@
-// src/pages/HomeView.tsx
-import { fetchProfile } from "@/services/auth";
+import { testApi } from "@/services/auth";
 import { useQuery } from "@tanstack/react-query";
 
 function HomeView() {
@@ -7,13 +6,16 @@ function HomeView() {
     data: user,
     isLoading,
     isError,
+    error,
   } = useQuery({
-    queryKey: ["user-profile"],
-    queryFn: fetchProfile,
+    queryKey: ["test"],
+    queryFn: testApi,
   });
 
+  console.log(isError, error);
+
   if (isLoading) return <p>Loading profile...</p>;
-  if (isError) return <p>Failed to load profile.</p>;
+  if (isError) return <p>Failed to load profile.{error?.message}</p>;
 
   return (
     <div>
