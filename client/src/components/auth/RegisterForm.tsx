@@ -76,7 +76,6 @@ function RegisterForm() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("Submitted", values);
     signup(values);
-    navigate("/login");
     form.reset();
   }
 

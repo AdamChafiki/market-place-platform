@@ -1,17 +1,7 @@
+import Config from '@/types/config.type';
 import dotenv from 'dotenv';
 
 dotenv.config();
-
-interface Config {
-  port: number;
-  nodeEnv: string;
-  databaseUrl: string;
-  authSecret: string;
-  authSecretExpiresIn: number;
-  authRefreshSecret: string;
-  authRefreshSecretExpiresIn: number;
-  clientUrl: string;
-}
 
 const config: Config = {
   port: Number(process.env.PORT) || 3000,

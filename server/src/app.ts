@@ -8,7 +8,7 @@ import cookieParser from 'cookie-parser';
 import config from '@/config/global.config';
 import authRouter from '@/routes/auth.routes';
 import profileRoute from '@/routes/profile.routes';
-import errorHandler from './middlewares/error.middleware';
+import { errorHandler, notFound } from '@/middlewares/errors.middleware';
 
 const app = express();
 
@@ -26,11 +26,12 @@ app.use(
 );
 
 app.get('/test', (req, res) => {
-  res.json({ message: 'Server working' });
+  res.json({ message: 'Server working', ip: req.ip });
 });
 
 app.use('/api/auth', authRouter);
 app.use('/api/profile', profileRoute);
+app.all('*catchall', notFound);
 
 app.use(errorHandler);
 

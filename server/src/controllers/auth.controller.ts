@@ -5,12 +5,15 @@ import { StatusCodes } from 'http-status-codes';
 
 import { prisma } from '@/lib/prisma';
 import { User } from 'generated/prisma';
+
 import {
   generateAccessToken,
   generateRefreshToken,
   verifyRefreshToken,
-} from '@/utils/jwt';
+} from '@/utils/Jwt';
 import config from '@/config/global.config';
+import { registerUser } from '@/services/auth.service';
+import RegisterUserInterface from '@/types/register.type';
 
 /**
  * @description Register User
@@ -19,7 +22,7 @@ import config from '@/config/global.config';
  * @access public
  */
 export const register = asyncHandler(
-  async (req: Request<{}, {}, User>, res: Response) => {
+  async (req: Request<{}, {}, RegisterUserInterface>, res: Response) => {
     const { username, email, role, password } = req.body;
 
     const existingUser = await prisma.user.findUnique({
@@ -31,13 +34,11 @@ export const register = asyncHandler(
       throw new Error('Email already exists');
     }
 
-    const user = await prisma.user.create({
-      data: {
-        username,
-        email,
-        role,
-        password: await bcrypt.hash(password, 10),
-      },
+    const user = await registerUser({
+      username,
+      email,
+      password,
+      role,
     });
 
     res.status(StatusCodes.CREATED).json({

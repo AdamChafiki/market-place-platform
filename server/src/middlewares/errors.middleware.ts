@@ -1,5 +1,6 @@
 import { AppError } from '@/utils/AppError';
 import { Request, Response, NextFunction } from 'express';
+import { StatusCodes } from 'http-status-codes';
 
 const errorHandler = (
   err: AppError,
@@ -14,4 +15,15 @@ const errorHandler = (
     stack: process.env.NODE_ENV === 'production' ? undefined : err.stack,
   });
 };
-export default errorHandler;
+
+const notFound = (req: Request, res: Response, next: NextFunction) => {
+  next(
+    new AppError(
+      `Can't find ${req.originalUrl} on this server!`,
+      StatusCodes.NOT_FOUND,
+      false
+    )
+  );
+};
+
+export { errorHandler, notFound };
