@@ -25,7 +25,7 @@ app.use(
   })
 );
 
-app.get('/test', (req, res) => {
+app.get('/test', (_, res) => {
   res.json({ username: 'test', email: 'test@gmail.com' });
 });
 

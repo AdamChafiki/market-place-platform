@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useLogin } from "@/hooks/useLogin";
 import { Toaster } from "sonner";
@@ -27,7 +27,6 @@ const formSchema = z.object({
 
 function LoginForm() {
   const login = useLogin();
-  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,7 +36,6 @@ function LoginForm() {
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
     login.mutate(values);
-    navigate("/");
   }
 
   return (

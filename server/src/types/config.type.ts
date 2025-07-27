@@ -3,9 +3,9 @@ interface Config {
   nodeEnv: string;
   databaseUrl: string;
   authSecret: string;
-  authSecretExpiresIn: number;
+  authSecretExpiresIn: string;
   authRefreshSecret: string;
-  authRefreshSecretExpiresIn: number;
+  authRefreshSecretExpiresIn: string;
   clientUrl: string;
 }
 

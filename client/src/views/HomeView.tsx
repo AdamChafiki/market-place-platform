@@ -1,18 +1,8 @@
-import { testApi } from "@/services/auth";
-import { useQuery } from "@tanstack/react-query";
+import { useAuthUser } from "@/hooks/useAuthUser";
 
 function HomeView() {
-  const {
-    data: user,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: ["test"],
-    queryFn: testApi,
-  });
-
-  console.log(isError, error);
+  const { data: user, isLoading, isError, error } = useAuthUser();
+  console.log("user", user);
 
   if (isLoading) return <p>Loading profile...</p>;
   if (isError) return <p>Failed to load profile.{error?.message}</p>;

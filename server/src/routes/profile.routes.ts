@@ -5,6 +5,6 @@ import { profile } from '@/controllers/profile.controller';
 
 const profileRoute = express.Router();
 
-profileRoute.get('/', jwtMiddleware, profile);
+profileRoute.get('/me', jwtMiddleware, profile);
 
 export default profileRoute;

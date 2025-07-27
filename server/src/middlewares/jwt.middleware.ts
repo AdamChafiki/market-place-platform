@@ -1,3 +1,4 @@
+import { AppError } from '@/utils/AppError';
 import { verifyAccessToken } from '@/utils/Jwt';
 import { Request, Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
@@ -12,17 +13,18 @@ declare global {
 
 const jwtMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
-  if (!authHeader) return res.status(401).json({ error: 'No token provided' });
+  if (!authHeader)
+    throw new AppError('No token provided', StatusCodes.UNAUTHORIZED);
 
   const token = authHeader.split(' ')[1];
+  console.log(`Received token: ${token}`);
+
   try {
     const decoded = verifyAccessToken(token);
     req.user = decoded;
     next();
   } catch (err) {
-    res
-      .status(StatusCodes.UNAUTHORIZED)
-      .json({ error: 'Invalid or expired token' });
+    throw new AppError('Invalid or expired token', StatusCodes.UNAUTHORIZED);
   }
 };
 
