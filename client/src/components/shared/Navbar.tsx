@@ -1,8 +1,26 @@
 import { NavLink, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FilePlus, LogIn, Sparkles } from "lucide-react";
+import { FilePlus, LogIn, LogOut, Sparkles } from "lucide-react";
+import { useAuthUser } from "@/hooks/useAuthUser";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { logoutUser } from "@/services/auth";
 
 function Navbar() {
+  const queryClient = useQueryClient();
+
+  const { data: user } = useAuthUser();
+  const navigate = useNavigate();
+
+  const { mutate: logout } = useMutation({
+    mutationFn: logoutUser,
+    onSuccess: () => {
+      localStorage.removeItem("accessToken");
+      queryClient.removeQueries();
+      navigate("login", { replace: true });
+    },
+  });
+
   const baseLinkStyles =
     "relative inline-block px-1 py-2 text-sm text-muted-foreground dark:text-white";
   const underlineEffect =
@@ -13,9 +31,9 @@ function Navbar() {
     }`;
 
   return (
-    <header className="py-4">
+    <header className="py-4 border-b">
       <nav className="flex items-center justify-between">
-        {/* Logo */}
+        {/* Logo + Nav */}
         <div className="flex items-center space-x-4">
           <Link to="/" className="flex items-center space-x-2">
             <Sparkles className="w-6 h-6 text-primary" />
@@ -37,18 +55,38 @@ function Navbar() {
           </ul>
         </div>
 
-        {/* Navigation Links */}
-
-        {/* Action Buttons */}
+        {/* Right Side: Auth / Post */}
         <ul className="flex space-x-4 items-center">
-          <li>
-            <NavLink to="/login">
-              <Button className="cursor-pointer flex items-center">
-                <LogIn className="mr-2 w-4 h-4 text-secondary" />
-                Login
-              </Button>
-            </NavLink>
-          </li>
+          {user ? (
+            <>
+              <li className="text-sm text-muted-foreground">
+                👋 Bonjour,{" "}
+                <span className="font-medium text-foreground">
+                  {user.username}
+                </span>
+              </li>
+              <li>
+                <Button
+                  variant="outline"
+                  onClick={() => logout()}
+                  className="flex items-center"
+                >
+                  <LogOut className="mr-2 w-4 h-4 text-destructive" />
+                  Logout
+                </Button>
+              </li>
+            </>
+          ) : (
+            <li>
+              <NavLink to="/login">
+                <Button className="cursor-pointer flex items-center">
+                  <LogIn className="mr-2 w-4 h-4 text-secondary" />
+                  Login
+                </Button>
+              </NavLink>
+            </li>
+          )}
+
           <li>
             <NavLink to="/post/article">
               <Button

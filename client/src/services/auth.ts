@@ -1,5 +1,4 @@
 import api from "@/lib/axios";
-import axios from "axios";
 
 interface RegisterInput {
   username: string;
@@ -22,7 +21,8 @@ export const fetchProfile = async () => {
   return data.user;
 };
 
-export const testApi = async () => {
-  const { data } = await axios.get("http://localhost:8000/tesst");
-  return data;
+export const logoutUser = async () => {
+  api.defaults.headers.common.Authorization = "";
+  const response = await api.post("/auth/logout");
+  return response.data;
 };

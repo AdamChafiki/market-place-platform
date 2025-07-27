@@ -112,7 +112,6 @@ export const refreshToken = asyncHandler(
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      path: '/login',
     });
 
     res.status(StatusCodes.OK).json({ accessToken: newAccessToken });
@@ -126,6 +125,6 @@ export const refreshToken = asyncHandler(
  * @access private
  */
 export const logout = asyncHandler(async (req: Request, res: Response) => {
-  res.clearCookie('refreshToken', { path: '/auth/refresh-token' });
+  res.clearCookie('refreshToken');
   res.status(StatusCodes.OK).json({ message: 'Logged out successfully' });
 });
