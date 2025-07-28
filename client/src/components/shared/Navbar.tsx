@@ -8,11 +8,10 @@ import { logoutUser } from "@/services/auth";
 
 function Navbar() {
   const queryClient = useQueryClient();
-
-  const { data: user } = useAuthUser();
+  const { data: user, isLoading } = useAuthUser();
   const navigate = useNavigate();
 
-  const { mutate: logout } = useMutation({
+  const { mutate: logout, isPending } = useMutation({
     mutationFn: logoutUser,
     onSuccess: () => {
       localStorage.removeItem("accessToken");
@@ -57,10 +56,12 @@ function Navbar() {
 
         {/* Right Side: Auth / Post */}
         <ul className="flex space-x-4 items-center">
-          {user ? (
+          {isLoading ? (
+            <div className="animate-pulse text-muted-foreground text-sm"></div>
+          ) : user ? (
             <>
               <li className="text-sm text-muted-foreground">
-                👋 Bonjour,{" "}
+                👋 Hello,{" "}
                 <span className="font-medium text-foreground">
                   {user.username}
                 </span>
@@ -69,14 +70,17 @@ function Navbar() {
                 <Button
                   variant="outline"
                   onClick={() => logout()}
+                  disabled={isPending}
                   className="flex items-center"
                 >
                   <LogOut className="mr-2 w-4 h-4 text-destructive" />
                   Logout
+                  {isPending && <span className="ml-2 animate-spin">🔄</span>}
                 </Button>
               </li>
             </>
           ) : (
+            // Show login button if no user
             <li>
               <NavLink to="/login">
                 <Button className="cursor-pointer flex items-center">
@@ -88,7 +92,7 @@ function Navbar() {
           )}
 
           <li>
-            <NavLink to="/post/article">
+            <NavLink to="/article/create">
               <Button
                 className="cursor-pointer flex items-center"
                 variant={"outline"}

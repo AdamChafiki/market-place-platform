@@ -14,8 +14,6 @@ import { StatusCodes } from 'http-status-codes';
 
 const profile = asyncHandler(async (req: Request, res: Response) => {
   const { userId } = req.user;
-  console.log(`Fetching profile for user ID: ${userId}`, req.user);
-
   const user: Pick<User, 'id' | 'username' | 'role'> | null =
     await prisma.user.findUnique({
       where: { id: userId },

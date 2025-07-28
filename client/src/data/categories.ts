@@ -14,7 +14,7 @@ export const categories = [
   {
     id: 3,
     name: "Voiture",
-    description: "Véhicules, voitures d'occasion, etc.",
+    description: "voitures d'occasion",
     icon: "Car",
   },
 ];

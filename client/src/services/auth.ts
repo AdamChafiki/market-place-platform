@@ -22,7 +22,12 @@ export const fetchProfile = async () => {
 };
 
 export const logoutUser = async () => {
-  api.defaults.headers.common.Authorization = "";
-  const response = await api.post("/auth/logout");
-  return response.data;
+  try {
+    api.defaults.headers.common.Authorization = "";
+    const response = await api.post("/auth/logout");
+    return response.data;
+  } catch (error) {
+    console.error("Logout failed:", error);
+    throw new Error("Logout failed");
+  }
 };
