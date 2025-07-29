@@ -17,7 +17,6 @@ const jwtMiddleware = (req: Request, res: Response, next: NextFunction) => {
     throw new AppError('No token provided', StatusCodes.UNAUTHORIZED);
 
   const token = authHeader.split(' ')[1];
-  console.log(`Received token: ${token}`);
 
   try {
     const decoded = verifyAccessToken(token);

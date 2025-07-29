@@ -54,7 +54,6 @@ function Navbar() {
           </ul>
         </div>
 
-        {/* Right Side: Auth / Post */}
         <ul className="flex space-x-4 items-center">
           {isLoading ? (
             <div className="animate-pulse text-muted-foreground text-sm"></div>
@@ -80,7 +79,6 @@ function Navbar() {
               </li>
             </>
           ) : (
-            // Show login button if no user
             <li>
               <NavLink to="/login">
                 <Button className="cursor-pointer flex items-center">

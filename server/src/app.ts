@@ -9,6 +9,7 @@ import config from '@/config/global.config';
 import authRouter from '@/routes/auth.routes';
 import profileRoute from '@/routes/profile.routes';
 import { errorHandler, notFound } from '@/middlewares/errors.middleware';
+import annoucementRouter from './routes/announcement.routes';
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.get('/test', (_, res) => {
 
 app.use('/api/auth', authRouter);
 app.use('/api/profile', profileRoute);
+app.use('/api/announcement', annoucementRouter);
 app.all('*catchall', notFound);
 
 app.use(errorHandler);
