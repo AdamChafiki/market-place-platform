@@ -10,8 +10,11 @@ import authRouter from '@/routes/auth.routes';
 import profileRoute from '@/routes/profile.routes';
 import { errorHandler, notFound } from '@/middlewares/errors.middleware';
 import annoucementRouter from '@/routes/announcement.routes';
+import { generalLimiter } from '@/middlewares/rateLimiter.middleware';
 
 const app = express();
+
+app.use(generalLimiter);
 
 app.use(cookieParser());
 app.use(helmet());
