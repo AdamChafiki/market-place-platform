@@ -9,7 +9,7 @@ import config from '@/config/global.config';
 import authRouter from '@/routes/auth.routes';
 import profileRoute from '@/routes/profile.routes';
 import { errorHandler, notFound } from '@/middlewares/errors.middleware';
-import annoucementRouter from './routes/announcement.routes';
+import annoucementRouter from '@/routes/announcement.routes';
 
 const app = express();
 
@@ -27,7 +27,7 @@ app.use(
 );
 
 app.get('/test', (_, res) => {
-  res.json({ username: 'test', email: 'test@gmail.com' });
+  res.json({ message: 'server is working' });
 });
 
 app.use('/api/auth', authRouter);

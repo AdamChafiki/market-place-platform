@@ -17,12 +17,12 @@ router.use(jwtMiddleware);
 router
   .route('/')
   .get(getAllAnnouncements)
-  .post(createAnnouncement, validateData(announcementSchema));
+  .post(validateData(announcementSchema), createAnnouncement);
 
 router
   .route('/:id')
   .get(getAnnouncementById)
-  .put(updateAnnouncement, validateData(announcementSchema))
+  .put(validateData(announcementSchema), updateAnnouncement)
   .delete(deleteAnnouncement);
 
 export default router;

@@ -9,11 +9,11 @@ import {
 import { validateData } from '@/middlewares/validation.middleware';
 import { userLoginSchema, userRegistrationSchema } from '@/shemas/auth.shema';
 
-const authRouter = express.Router();
+const router = express.Router();
 
-authRouter.post('/register', validateData(userRegistrationSchema), register);
-authRouter.post('/login', validateData(userLoginSchema), login);
-authRouter.post('/logout', logout);
-authRouter.post('/refresh-token', refreshToken);
+router.post('/register', validateData(userRegistrationSchema), register);
+router.post('/login', validateData(userLoginSchema), login);
+router.post('/logout', logout);
+router.post('/refresh-token', refreshToken);
 
-export default authRouter;
+export default router;
