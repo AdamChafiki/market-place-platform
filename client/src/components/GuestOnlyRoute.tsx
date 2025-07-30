@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useAuthUser } from "@/hooks/useAuthUser";
+import { useAuthUser } from "@/hooks/authHook/useAuthUser";
 import type React from "react";
 
 const GuestOnlyRoute = ({ children }: { children: React.ReactNode }) => {

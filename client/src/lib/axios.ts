@@ -39,7 +39,7 @@ api.interceptors.response.use(
         setAccessToken(accessToken);
         api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-        return api(originalRequest); // retry original
+        return api(originalRequest);
       } catch (refreshError) {
         return Promise.reject(refreshError);
       }

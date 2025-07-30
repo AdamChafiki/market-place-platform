@@ -1,4 +1,4 @@
-import { fetchProfile } from "@/services/auth";
+import { fetchProfile } from "@/services/profile";
 import { useQuery } from "@tanstack/react-query";
 
 export const useAuthUser = () =>
@@ -6,6 +6,5 @@ export const useAuthUser = () =>
     queryKey: ["user-profile"],
     queryFn: fetchProfile,
     retry: false,
-    staleTime: 1000 * 60 * 5, // 5 minutes
-    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 5,
   });

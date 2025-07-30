@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useLogin } from "@/hooks/useLogin";
+import { useLogin } from "@/hooks/authHook/useLogin";
 import { Toaster } from "sonner";
 
 const formSchema = z.object({

@@ -1,7 +1,7 @@
 import { NavLink, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { FilePlus, LogIn, LogOut, Sparkles } from "lucide-react";
-import { useAuthUser } from "@/hooks/useAuthUser";
+import { useAuthUser } from "@/hooks/authHook/useAuthUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "@/services/auth";

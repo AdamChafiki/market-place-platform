@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import useRegister from "@/hooks/useRegister";
+import useRegister from "@/hooks/authHook/useRegister";
 import { Toaster } from "sonner";
 
 const formSchema = z.object({

@@ -1,24 +1,17 @@
 import api from "@/lib/axios";
+import type { RegisterInterface } from "@/types";
 
-interface RegisterInput {
-  username: string;
-  email: string;
-  password: string;
-}
-
-export const registerUser = async (data: RegisterInput) => {
+export const registerUser = async (data: RegisterInterface) => {
   const response = await api.post("/auth/register", data);
   return response.data;
 };
 
-export const fetchProfile = async () => {
-  const accessToken = localStorage.getItem("accessToken");
-  if (!accessToken) {
-    throw new Error("No access token found");
-  }
-  api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-  const { data } = await api.get("/profile/me");
-  return data.user;
+export const loginUser = async (credentials: {
+  email: string;
+  password: string;
+}) => {
+  const response = await api.post("/auth/login", credentials);
+  return response.data;
 };
 
 export const logoutUser = async () => {
