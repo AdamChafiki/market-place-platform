@@ -9,7 +9,7 @@ import {
   refreshAccessToken,
   registerUser,
 } from '@/services/auth.service';
-import RegisterUserInterface from '@/types/register.type';
+import RegisterUserInterface from '@/types/auth.type';
 import { AppError } from '@/utils/AppError';
 
 /**

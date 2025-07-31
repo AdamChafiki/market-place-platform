@@ -8,7 +8,7 @@ import {
   generateRefreshToken,
   verifyRefreshToken,
 } from '@/utils/Jwt';
-import RegisterUserInterface from '@/types/register.type';
+import RegisterUserInterface from '@/types/auth.type';
 
 /**
  * @description Register new user

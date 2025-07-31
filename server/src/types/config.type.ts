@@ -7,6 +7,9 @@ interface Config {
   authRefreshSecret: string;
   authRefreshSecretExpiresIn: string;
   clientUrl: string;
+  cloudinaryCloudName: string;
+  cloudinaryApiKey: string;
+  cloudinaryApiSecret: string;
 }
 
 export default Config;
