@@ -1,4 +1,4 @@
-import ArticleForm from "@/components/article/ArticleForm";
+import ArticleForm from "@/components/annoucement/ArticleForm";
 
 function ArticleCreate() {
   return <ArticleForm />;

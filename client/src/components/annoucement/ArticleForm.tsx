@@ -17,6 +17,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Toaster } from "sonner";
+import useCreateAnnouncement from "@/hooks/announcementHook/useCreateAnnouncement";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -28,6 +29,7 @@ const formSchema = z.object({
 });
 
 export default function ArticleForm() {
+  const { createAnnoucement, isLoading } = useCreateAnnouncement();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,12 +38,22 @@ export default function ArticleForm() {
       location: "",
       phone: "",
       hidePhone: false,
+      image: null,
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // handle submission logic here (API, mutation...)
+    const formData = new FormData();
+    formData.append("name", values.name);
+    formData.append("description", values.description);
+    formData.append("location", values.location);
+    formData.append("phoneNumber", values.phone);
+    formData.append("hidePhone", String(values.hidePhone));
+    if (values.image) {
+      formData.append("image", values.image);
+    }
+    createAnnoucement(formData);
+    form.reset();
   }
 
   return (
@@ -155,7 +167,7 @@ export default function ArticleForm() {
               )}
             />
 
-            <Button type="submit" className="w-full">
+            <Button type="submit" disabled={isLoading} className="w-full">
               Submit
             </Button>
           </form>

@@ -3,15 +3,18 @@ import { toast } from "sonner";
 import type { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "@/services/auth";
+import { setAccessToken } from "@/lib/axios";
 
 export const useLogin = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      localStorage.setItem("accessToken", data.accessToken);
+      const token = data.accessToken;
+      if (token) {
+        setAccessToken(token);
+      }
       queryClient.invalidateQueries({ queryKey: ["user-profile"] });
       navigate("/");
     },

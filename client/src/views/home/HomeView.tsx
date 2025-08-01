@@ -1,4 +1,4 @@
-import ArticleCard from "@/components/article/ArticleCard";
+import ArticleCard from "@/components/annoucement/AnnoucementCard";
 import CategorieCard from "@/components/CategorieCard";
 import SearchForm from "@/components/SearchForm";
 

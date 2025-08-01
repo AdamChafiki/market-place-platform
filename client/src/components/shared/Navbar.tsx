@@ -2,32 +2,11 @@ import { NavLink, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { FilePlus, LogIn, LogOut, Sparkles } from "lucide-react";
 import { useAuthUser } from "@/hooks/authHook/useAuthUser";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
-import { logoutUser } from "@/services/auth";
+import { useLogout } from "@/hooks/authHook/useLogout";
 
 function Navbar() {
-  const queryClient = useQueryClient();
   const { data: user, isLoading } = useAuthUser();
-  const navigate = useNavigate();
-
-  const { mutate: logout, isPending } = useMutation({
-    mutationFn: logoutUser,
-    onSuccess: () => {
-      localStorage.removeItem("accessToken");
-      queryClient.removeQueries();
-      navigate("login", { replace: true });
-    },
-  });
-
-  const baseLinkStyles =
-    "relative inline-block px-1 py-2 text-sm text-muted-foreground dark:text-white";
-  const underlineEffect =
-    "after:absolute after:left-0 after:bottom-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 after:w-0 hover:after:w-full";
-  const getNavLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `${baseLinkStyles} ${underlineEffect} ${
-      isActive ? "text-primary after:w-full" : "hover:text-primary"
-    }`;
+  const { mutate: logout, isPending: isLoggingOut } = useLogout();
 
   return (
     <header className="py-4 border-b">
@@ -42,12 +21,30 @@ function Navbar() {
           </Link>
           <ul className="flex items-center space-x-4">
             <li>
-              <NavLink to="/Browze" className={getNavLinkClass}>
-                Browze
+              <NavLink
+                to="/browse"
+                className={({ isActive }) =>
+                  `relative inline-block px-1 py-2 text-sm ${
+                    isActive
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-primary"
+                  }`
+                }
+              >
+                Browse
               </NavLink>
             </li>
             <li>
-              <NavLink to="/boutique" className={getNavLinkClass}>
+              <NavLink
+                to="/boutique"
+                className={({ isActive }) =>
+                  `relative inline-block px-1 py-2 text-sm ${
+                    isActive
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-primary"
+                  }`
+                }
+              >
                 Boutique
               </NavLink>
             </li>
@@ -56,7 +53,9 @@ function Navbar() {
 
         <ul className="flex space-x-4 items-center">
           {isLoading ? (
-            <div className="animate-pulse text-muted-foreground text-sm"></div>
+            <div className="animate-pulse text-muted-foreground text-sm">
+              Loading...
+            </div>
           ) : user ? (
             <>
               <li className="text-sm text-muted-foreground">
@@ -69,31 +68,32 @@ function Navbar() {
                 <Button
                   variant="outline"
                   onClick={() => logout()}
-                  disabled={isPending}
+                  disabled={isLoggingOut}
                   className="flex items-center"
                 >
                   <LogOut className="mr-2 w-4 h-4 text-destructive" />
                   Logout
-                  {isPending && <span className="ml-2 animate-spin">🔄</span>}
+                  {isLoggingOut && (
+                    <span className="ml-2 animate-spin">🔄</span>
+                  )}
                 </Button>
               </li>
             </>
           ) : (
             <li>
               <NavLink to="/login">
-                <Button className="cursor-pointer flex items-center">
+                <Button className="flex items-center cursor-pointer">
                   <LogIn className="mr-2 w-4 h-4 text-secondary" />
                   Login
                 </Button>
               </NavLink>
             </li>
           )}
-
           <li>
             <NavLink to="/article/create">
               <Button
-                className="cursor-pointer flex items-center"
-                variant={"outline"}
+                variant="outline"
+                className="flex items-center cursor-pointer"
               >
                 <FilePlus className="mr-2 w-4 h-4 text-primary" />
                 Post an article

@@ -4,6 +4,27 @@ interface RegisterInterface {
   password: string;
 }
 
+interface User {
+  id: string;
+  username: string;
+}
 
+interface Announcement {
+  id: string;
+  name: string;
+  description: string;
+  location: string;
+  phoneNumber: string;
+  hidePhone: boolean;
+  imageUrl: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+  user: User;
+}
 
-export type { RegisterInterface };
+interface GetAnnouncementsResponse {
+  announcements: Announcement[];
+}
+
+export type { RegisterInterface, GetAnnouncementsResponse };
