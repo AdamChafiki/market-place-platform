@@ -9,11 +9,24 @@ import {
   updateAnnouncementService,
   deleteAnnouncementService,
 } from '@/services/announcement.service';
+import { uploadImageToCloudinary } from '@/utils/Cloudinary';
 
 export const createAnnouncement = expressAsyncHandler(
   async (req: Request<{}, {}, AnnouncementInterface>, res: Response) => {
     const { userId } = req.user;
-    const announcement = await createAnnouncementService(req.body, userId);
+
+    let imageUrl: string | undefined;
+    if (req.file) {
+      const uploadResult = await uploadImageToCloudinary(
+        `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`
+      );
+      imageUrl = uploadResult.secure_url;
+    }
+
+    const announcement = await createAnnouncementService(
+      { ...req.body, imageUrl },
+      userId
+    );
     res.status(StatusCodes.CREATED).json({ announcement });
   }
 );

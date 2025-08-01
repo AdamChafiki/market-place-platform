@@ -11,7 +11,8 @@ export const createAnnouncementService = async (
   return await prisma.announcement.create({
     data: {
       ...data,
-      imageUrl: data.imageUrl ?? '', // Provide a default empty string if imageUrl is undefined
+      hidePhone: Boolean(data.hidePhone),
+      imageUrl: data.imageUrl ?? '',
       userId,
     },
   });

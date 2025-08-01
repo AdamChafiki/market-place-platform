@@ -1,44 +1,49 @@
-const cloudinary = require('cloudinary').v2;
+import config from '@/config/global.config';
+import {
+  v2 as cloudinary,
+  UploadApiResponse,
+  UploadApiErrorResponse,
+} from 'cloudinary';
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: config.cloudinaryCloudName,
+  api_key: config.cloudinaryApiKey,
+  api_secret: config.cloudinaryApiSecret,
 });
 
-const uploadImageToCloudinary = async (file) => {
+export const uploadImageToCloudinary = async (
+  file: string
+): Promise<UploadApiResponse> => {
   try {
     const result = await cloudinary.uploader.upload(file, {
       resource_type: 'auto',
     });
-
     return result;
   } catch (error) {
     console.error('Image upload error:', error);
     throw new Error('Failed to upload image to Cloudinary');
   }
 };
-const deleteImageToCloudinary = async (imagePublic) => {
-  console.log('deletettttt');
+
+export const deleteImageToCloudinary = async (
+  imagePublic: string
+): Promise<{ result: string }> => {
   try {
     if (!imagePublic) {
       throw new Error('Missing required parameter - public_id');
     }
 
     const result = await cloudinary.uploader.destroy(imagePublic);
-
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Image deletion error:', error);
-
-    // Include the original error message
-    const errorMessage =
-      error.message || 'Failed to delete image from Cloudinary';
-    throw new Error(errorMessage);
+    throw new Error(error.message || 'Failed to delete image from Cloudinary');
   }
 };
 
-const deleteMultipleImageToCloudinary = async (publicIds) => {
+export const deleteMultipleImageToCloudinary = async (
+  publicIds: string[]
+): Promise<any> => {
   try {
     const result = await cloudinary.api.delete_resources(publicIds);
     return result;
@@ -46,10 +51,4 @@ const deleteMultipleImageToCloudinary = async (publicIds) => {
     console.error('Image deletion error:', error);
     throw new Error('Failed to delete images from Cloudinary');
   }
-};
-
-module.exports = {
-  uploadImageToCloudinary,
-  deleteImageToCloudinary,
-  deleteMultipleImageToCloudinary,
 };

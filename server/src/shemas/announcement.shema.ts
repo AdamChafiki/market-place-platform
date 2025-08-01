@@ -8,7 +8,11 @@ export const announcementSchema = z.object({
     .string()
     .min(10, { message: 'Phone number must be at least 10 digits' })
     .max(20, { message: 'Phone number is too long' }),
-  hidePhone: z.boolean().default(false),
-  imageUrl: z.url({ message: 'Must be a valid image URL' }).optional(),
+  hidePhone: z
+    .string()
+    .transform((val) => val === 'true')
+    .pipe(z.boolean())
+    .optional()
+    .default(false),
   userId: z.uuid({ message: 'Invalid user ID' }),
 });
