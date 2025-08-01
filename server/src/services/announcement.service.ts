@@ -21,6 +21,14 @@ export const createAnnouncementService = async (
 export const getAllAnnouncementsService = async (): Promise<Announcement[]> => {
   return await prisma.announcement.findMany({
     orderBy: { createdAt: 'desc' },
+    include: {
+      user: {
+        select: {
+          id: true,
+          username: true,
+        },
+      },
+    },
   });
 };
 
