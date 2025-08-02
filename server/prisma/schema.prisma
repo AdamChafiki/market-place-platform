@@ -27,6 +27,7 @@ model Announcement {
   description String
   location    String
   phoneNumber String
+  price       Float
   hidePhone   Boolean @default(false)
   imageUrl    String
 

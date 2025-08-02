@@ -14,5 +14,6 @@ export const announcementSchema = z.object({
     .pipe(z.boolean())
     .optional()
     .default(false),
+  price: z.number().min(0),
   userId: z.uuid({ message: 'Invalid user ID' }),
 });

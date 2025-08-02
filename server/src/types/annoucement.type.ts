@@ -3,6 +3,7 @@ export interface AnnouncementInterface {
   description: string;
   location: string;
   phoneNumber: string;
+  price: number;
   hidePhone?: boolean;
   imageUrl?: string;
 }

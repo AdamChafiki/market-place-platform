@@ -3,6 +3,7 @@ import { AnnouncementInterface } from '@/types/annoucement.type';
 import { AppError } from '@/utils/AppError';
 import { StatusCodes } from 'http-status-codes';
 import { Announcement } from 'generated/prisma';
+import { parse } from 'path';
 
 export const createAnnouncementService = async (
   data: AnnouncementInterface,
@@ -14,6 +15,8 @@ export const createAnnouncementService = async (
       hidePhone: Boolean(data.hidePhone),
       imageUrl: data.imageUrl ?? '',
       userId,
+      price:
+        typeof data.price === 'string' ? parseFloat(data.price) : data.price,
     },
   });
 };

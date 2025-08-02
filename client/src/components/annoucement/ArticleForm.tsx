@@ -19,11 +19,15 @@ import { motion } from "framer-motion";
 import { Toaster } from "sonner";
 import useCreateAnnouncement from "@/hooks/announcementHook/useCreateAnnouncement";
 
+// ✅ Updated schema with price
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
   description: z.string().min(10, "Description too short"),
   location: z.string().min(2, "Location is required"),
   phone: z.string().min(6, "Phone number too short"),
+  price: z
+    .number({ message: "Price must be a number" })
+    .min(0, "Price is required"),
   image: z.any().optional(),
   hidePhone: z.boolean().optional(),
 });
@@ -37,6 +41,7 @@ export default function ArticleForm() {
       description: "",
       location: "",
       phone: "",
+      price: 0,
       hidePhone: false,
       image: null,
     },
@@ -48,6 +53,7 @@ export default function ArticleForm() {
     formData.append("description", values.description);
     formData.append("location", values.location);
     formData.append("phoneNumber", values.phone);
+    formData.append("price", values.price.toString());
     formData.append("hidePhone", String(values.hidePhone));
     if (values.image) {
       formData.append("image", values.image);
@@ -71,6 +77,7 @@ export default function ArticleForm() {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+            {/* Name */}
             <FormField
               control={form.control}
               name="name"
@@ -85,6 +92,7 @@ export default function ArticleForm() {
               )}
             />
 
+            {/* Description */}
             <FormField
               control={form.control}
               name="description"
@@ -103,6 +111,7 @@ export default function ArticleForm() {
               )}
             />
 
+            {/* Location */}
             <FormField
               control={form.control}
               name="location"
@@ -117,6 +126,7 @@ export default function ArticleForm() {
               )}
             />
 
+            {/* Phone */}
             <FormField
               control={form.control}
               name="phone"
@@ -131,6 +141,29 @@ export default function ArticleForm() {
               )}
             />
 
+            {/* ✅ Price */}
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Price (MAD)</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="Enter price in dirhams"
+                      {...field}
+                      onChange={(e) =>
+                        field.onChange(parseFloat(e.target.value))
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Hide Phone */}
             <FormField
               control={form.control}
               name="hidePhone"
@@ -149,6 +182,7 @@ export default function ArticleForm() {
               )}
             />
 
+            {/* Image Upload */}
             <FormField
               control={form.control}
               name="image"
@@ -167,6 +201,7 @@ export default function ArticleForm() {
               )}
             />
 
+            {/* Submit Button */}
             <Button type="submit" disabled={isLoading} className="w-full">
               Submit
             </Button>
