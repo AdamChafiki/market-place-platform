@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useAnnouncements } from "@/hooks/announcementHook/useAnnouncements";
 import { formatDate } from "@/utils/date";
+import { Link } from "react-router-dom";
 
 export default function AnnouncementScroller() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -81,38 +82,40 @@ export default function AnnouncementScroller() {
                   </div>
                 ))
               : data.announcements.map((item) => (
-                  <motion.div
-                    key={item.id}
-                    className="min-w-[250px] bg-white rounded-2xl shadow-md snap-start announcement-card"
-                    whileHover={{ scale: 1.02 }}
-                  >
-                    <img
-                      src={item.imageUrl}
-                      alt={item.name}
-                      className="w-full h-40 object-cover rounded-t-2xl"
-                    />
-                    <div className="p-3 space-y-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <img
-                          src={`https://i.pravatar.cc/150?u=${item.user.id}`}
-                          alt={item.user.username}
-                          className="w-8 h-8 rounded-full"
-                        />
-                        <div>
-                          <p className="text-sm font-medium">
-                            {item.user.username}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {formatDate(item.createdAt)}
-                          </p>
+                  <Link key={item.id} to={`/announcement/${item.id}`}>
+                    <motion.div
+                      key={item.id}
+                      className="min-w-[250px] bg-white rounded-2xl shadow-md snap-start announcement-card"
+                      whileHover={{ scale: 1.02 }}
+                    >
+                      <img
+                        src={item.imageUrl}
+                        alt={item.name}
+                        className="w-full h-40 object-cover rounded-t-2xl"
+                      />
+                      <div className="p-3 space-y-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <img
+                            src={`https://i.pravatar.cc/150?u=${item.user.id}`}
+                            alt={item.user.username}
+                            className="w-8 h-8 rounded-full"
+                          />
+                          <div>
+                            <p className="text-sm font-medium">
+                              {item.user.username}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {formatDate(item.createdAt)}
+                            </p>
+                          </div>
                         </div>
+                        <h3 className="text-lg font-semibold">{item.name}</h3>
+                        <p className="text-primary text-sm font-bold mt-2">
+                          {item.price} DH
+                        </p>
                       </div>
-                      <h3 className="text-lg font-semibold">{item.name}</h3>
-                      <p className="text-primary text-sm font-bold mt-2">
-                        {item.price} DH
-                      </p>
-                    </div>
-                  </motion.div>
+                    </motion.div>
+                  </Link>
                 ))}
           </div>
         )}

@@ -11,7 +11,6 @@ function Navbar() {
   return (
     <header className="py-4 border-b">
       <nav className="flex items-center justify-between">
-        {/* Logo + Nav */}
         <div className="flex items-center space-x-4">
           <Link to="/" className="flex items-center space-x-2">
             <Sparkles className="w-6 h-6 text-primary" />
@@ -90,13 +89,13 @@ function Navbar() {
             </li>
           )}
           <li>
-            <NavLink to="/article/create">
+            <NavLink to="/annoucement/create">
               <Button
                 variant="outline"
                 className="flex items-center cursor-pointer"
               >
                 <FilePlus className="mr-2 w-4 h-4 text-primary" />
-                Post an article
+                Post an annoucement
               </Button>
             </NavLink>
           </li>

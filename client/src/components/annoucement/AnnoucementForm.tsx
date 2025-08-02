@@ -32,7 +32,7 @@ const formSchema = z.object({
   hidePhone: z.boolean().optional(),
 });
 
-export default function ArticleForm() {
+export default function AnnoucementForm() {
   const { createAnnoucement, isLoading } = useCreateAnnouncement();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -201,7 +201,6 @@ export default function ArticleForm() {
               )}
             />
 
-            {/* Submit Button */}
             <Button type="submit" disabled={isLoading} className="w-full">
               Submit
             </Button>

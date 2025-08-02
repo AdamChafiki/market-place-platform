@@ -38,10 +38,17 @@ export const getAllAnnouncementsService = async (): Promise<Announcement[]> => {
 export const getAnnouncementByIdService = async (
   id: string
 ): Promise<Announcement> => {
-  const announcement = await prisma.announcement.findUnique({ where: { id } });
+  const announcement = await prisma.announcement.findUnique({
+    where: { id },
+    include: {
+      user: true,
+    },
+  });
+
   if (!announcement) {
     throw new AppError('Announcement not found', StatusCodes.NOT_FOUND);
   }
+
   return announcement;
 };
 

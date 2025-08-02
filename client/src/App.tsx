@@ -2,13 +2,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 import HomeView from "@/views/home/HomeView";
-import ListView from "@/views/article/ArticleListView";
+import ListView from "@/views/announcement/AnnoucementListView";
 import NotFoundView from "@/views/not-found/NotFoundView";
 import BaseLayout from "@/layouts/BaseLayout";
 import LoginView from "@/views/auth/LoginView";
 import RegisterView from "@/views/auth/RegisterView";
 import GuestOnlyRoute from "@/components/GuestOnlyRoute";
-import ArticleCreate from "@/views/article/ArticleCreate";
+import AnnouncementDetails from "./views/announcement/AnnouncementDetails";
+import AnnoucementCreate from "@/views/announcement/AnnoucementCreate";
 
 function App() {
   const queryClient = new QueryClient();
@@ -36,7 +37,12 @@ function App() {
                 </GuestOnlyRoute>
               }
             />
-            <Route path="/article/create" element={<ArticleCreate />} />
+            <Route path="/annoucement/create" element={<AnnoucementCreate />} />
+            <Route
+              path="/annoucement/create"
+              element={<AnnouncementDetails />}
+            />
+            <Route path="/announcement/:id" element={<AnnouncementDetails />} />
             <Route path="*" element={<NotFoundView />} />
           </Routes>
         </BaseLayout>

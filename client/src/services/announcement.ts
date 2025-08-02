@@ -13,3 +13,8 @@ export const createAnnouncement = async (formData: FormData) => {
   });
   return response.data;
 };
+
+export const getAnnouncementById = async (id: string) => {
+  const response = await api.get(`/announcement/${id}`);
+  return response.data.announcement;
+};
