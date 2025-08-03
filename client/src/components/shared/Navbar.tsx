@@ -89,7 +89,7 @@ function Navbar() {
             </li>
           )}
           <li>
-            <NavLink to="/annoucement/create">
+            <NavLink to="/announcement/create">
               <Button
                 variant="outline"
                 className="flex items-center cursor-pointer"
