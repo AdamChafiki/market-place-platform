@@ -1,14 +1,45 @@
 import { useParams } from "react-router-dom";
 import { useAnnouncementById } from "@/hooks/announcementHook/useAnnoucementById";
+import { useAuthUser } from "@/hooks/authHook/useAuthUser";
+import { useDeleteAnnouncement } from "@/hooks/announcementHook/useDeleteAnnouncement";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
-import { AlertTriangle, MapPin, Phone, User, Wallet } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  AlertTriangle,
+  MapPin,
+  Phone,
+  User,
+  Wallet,
+  MessageCircle,
+  Flag,
+  Trash2,
+} from "lucide-react";
+import { motion } from "framer-motion";
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
+import { formatDate } from "@/utils/date";
 
 function AnnouncementDetails() {
   const { id } = useParams();
-  const { data, isLoading, error } = useAnnouncementById(id!);
+  const { data: announcement, isLoading, error } = useAnnouncementById(id!);
+  const { data: currentUser } = useAuthUser();
+  const { mutate: deleteAnnouncement, isPending } = useDeleteAnnouncement();
+
+  const handleDelete = () => {
+    deleteAnnouncement(id!);
+  };
 
   if (isLoading) {
     return (
@@ -21,72 +52,136 @@ function AnnouncementDetails() {
     );
   }
 
-  if (error || !data) {
+  if (error || !announcement) {
     return (
       <div className="flex justify-center items-center h-64 text-destructive">
         <AlertTriangle className="mr-2" />
-        Aucune annonce trouvée.
+        No announcement found.
       </div>
     );
   }
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
+    <motion.div
+      className="p-6 max-w-6xl mx-auto"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
       <Card className="overflow-hidden shadow-lg rounded-2xl">
-        <img
-          src={data.imageUrl}
-          alt={data.name}
-          className="w-full h-[400px] object-cover"
-        />
-        <CardContent className="p-6 space-y-6">
-          <div className="flex flex-col gap-2">
-            <h1 className="text-3xl font-bold text-primary">{data.name}</h1>
-            <div className="text-muted-foreground text-sm">
-              {new Date(data.createdAt).toLocaleDateString("fr-FR", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </div>
-          </div>
+        <div className="grid md:grid-cols-2">
+          <img
+            src={announcement.imageUrl}
+            alt={announcement.name}
+            className="w-full h-full object-cover max-h-[500px]"
+          />
 
-          <Separator />
-
-          <div className="text-[16px] leading-relaxed text-foreground">
-            {data.description}
-          </div>
-
-          <Separator />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[15px]">
-            <div className="flex items-center gap-2">
-              <MapPin className="text-muted-foreground w-5 h-5" />
-              <span className="font-medium">Emplacement:</span> {data.location}
+          <CardContent className="p-6 space-y-5">
+            <div className="space-y-2">
+              <h1 className="text-3xl font-bold text-primary">
+                {announcement.name}
+              </h1>
+              <div className="text-muted-foreground text-sm">
+                {formatDate(announcement.createdAt)}
+              </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <Wallet className="text-muted-foreground w-5 h-5" />
-              <span className="font-medium">Prix:</span>
-              <Badge className="text-base px-3 py-1 bg-green-500 hover:bg-green-600">
-                {data.price} MAD
-              </Badge>
+            <div className="text-[16px] leading-relaxed text-foreground">
+              {announcement.description}
             </div>
 
-            <div className="flex items-center gap-2">
-              <Phone className="text-muted-foreground w-5 h-5" />
-              <span className="font-medium">Téléphone:</span>{" "}
-              {data.hidePhone ? "Caché" : data.phoneNumber}
+            <Separator />
+
+            <div className="space-y-2 text-[15px]">
+              <div className="flex items-center gap-2">
+                <MapPin className="text-muted-foreground w-5 h-5" />
+                <span className="font-medium">Location:</span>{" "}
+                {announcement.location}
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Wallet className="text-muted-foreground w-5 h-5" />
+                <span className="font-medium">Price:</span>
+                <Badge className="text-base px-3 py-1 bg-green-500 hover:bg-green-600">
+                  {announcement.price} MAD
+                </Badge>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Phone className="text-muted-foreground w-5 h-5" />
+                <span className="font-medium">Phone:</span>{" "}
+                {announcement.hidePhone ? "Hidden" : announcement.phoneNumber}
+              </div>
+
+              <div className="flex items-center gap-2">
+                <User className="text-muted-foreground w-5 h-5" />
+                <span className="font-medium">User:</span>{" "}
+                {announcement.user?.username || "N/A"}
+              </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <User className="text-muted-foreground w-5 h-5" />
-              <span className="font-medium">Utilisateur:</span>{" "}
-              {data.user?.username || "N/A"}
+            <Separator />
+
+            <div className="flex flex-wrap gap-3 pt-2">
+              <Button variant="default" className="gap-2">
+                <MessageCircle className="w-4 h-4" />
+                Send Message
+              </Button>
+
+              {!announcement.hidePhone && (
+                <a
+                  href={`https://wa.me/${announcement.phoneNumber}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button
+                    variant="outline"
+                    className="gap-2 text-green-600 border-green-500 hover:bg-green-50"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    WhatsApp
+                  </Button>
+                </a>
+              )}
+
+              <Button variant="destructive" className="gap-2 ml-auto">
+                <Flag className="w-4 h-4" />
+                Report
+              </Button>
+
+              {currentUser?.id === announcement.userId && (
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="destructive" className="gap-2">
+                      <Trash2 className="w-4 h-4" />
+                      Delete
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Are you sure you want to delete this post? This action
+                        cannot be undone.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={handleDelete}
+                        disabled={isPending}
+                      >
+                        Delete
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              )}
             </div>
-          </div>
-        </CardContent>
+          </CardContent>
+        </div>
       </Card>
-    </div>
+    </motion.div>
   );
 }
 

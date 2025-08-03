@@ -23,6 +23,6 @@ router
   .route('/:id')
   .get(getAnnouncementById)
   .put(validateData(announcementSchema), jwtMiddleware, updateAnnouncement)
-  .delete(deleteAnnouncement, jwtMiddleware);
+  .delete(jwtMiddleware, deleteAnnouncement);
 
 export default router;
