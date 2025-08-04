@@ -1,7 +1,7 @@
-import AnnoucementForm from "@/components/annoucement/AnnoucementForm";
+import CreateAnnoucementForm from "@/components/annoucement/CreateAnnoucementForm";
 
 function AnnoucementCreate() {
-  return <AnnoucementForm />;
+  return <CreateAnnoucementForm />;
 }
 
 export default AnnoucementCreate;

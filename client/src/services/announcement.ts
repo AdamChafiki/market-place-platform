@@ -19,6 +19,15 @@ export const getAnnouncementById = async (id: string) => {
   return response.data.announcement;
 };
 
+export const updateAnnouncement = async (id: string, formData: FormData) => {
+  const response = await api.put(`/announcement/${id}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+};
+
 export const deleteAnnouncement = async (id: string) => {
   const response = await api.delete(`/announcement/${id}`);
   return response.data;

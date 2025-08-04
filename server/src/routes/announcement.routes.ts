@@ -10,6 +10,7 @@ import {
 import jwtMiddleware from '@/middlewares/jwt.middleware';
 import { validateData } from '@/middlewares/validation.middleware';
 import { upload } from '@/middlewares/upload.middleware';
+import { announcementSchema } from '@/shemas/announcement.shema';
 
 const router = express.Router();
 

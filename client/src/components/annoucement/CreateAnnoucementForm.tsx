@@ -16,7 +16,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { Toaster } from "sonner";
 import useCreateAnnouncement from "@/hooks/announcementHook/useCreateAnnouncement";
 
 // ✅ Updated schema with price
@@ -32,7 +31,7 @@ const formSchema = z.object({
   hidePhone: z.boolean().optional(),
 });
 
-export default function AnnoucementForm() {
+export default function CreateAnnoucementForm() {
   const { createAnnoucement, isLoading } = useCreateAnnouncement();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -65,7 +64,6 @@ export default function AnnoucementForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
-      <Toaster position="bottom-right" richColors />
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}

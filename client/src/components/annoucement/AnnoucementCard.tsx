@@ -1,32 +1,14 @@
-import { useRef } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useAnnouncements } from "@/hooks/announcementHook/useAnnouncements";
 import { formatDate } from "@/utils/date";
 import { Link } from "react-router-dom";
+import { useScroll } from "@/hooks/useScroll";
 
 export default function AnnouncementScroller() {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const { scrollRef, scroll } = useScroll();
   const { data = { announcements: [] }, isLoading } = useAnnouncements();
-
-  const scroll = (direction: "left" | "right") => {
-    if (!scrollRef.current) return;
-
-    const card = scrollRef.current.querySelector(
-      ".announcement-card"
-    ) as HTMLElement;
-    const cardWidth = card ? card.offsetWidth + 16 : 266;
-
-    const scrollTo =
-      direction === "left"
-        ? scrollRef.current.scrollLeft - cardWidth
-        : scrollRef.current.scrollLeft + cardWidth;
-
-    scrollRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
-  };
-
-  const hasNoData = !isLoading && data.announcements.length === 0;
 
   return (
     <section className="mt-8">
@@ -51,7 +33,7 @@ export default function AnnouncementScroller() {
           </div>
         </div>
 
-        {hasNoData ? (
+        {!isLoading && data.announcements.length === 0 ? (
           <div className="text-center text-muted-foreground py-10">
             No announcements available.
           </div>
@@ -84,7 +66,6 @@ export default function AnnouncementScroller() {
               : data.announcements.map((item) => (
                   <Link key={item.id} to={`/announcement/${item.id}`}>
                     <motion.div
-                      key={item.id}
                       className="min-w-[250px] bg-white rounded-2xl shadow-md snap-start announcement-card"
                       whileHover={{ scale: 1.02 }}
                     >

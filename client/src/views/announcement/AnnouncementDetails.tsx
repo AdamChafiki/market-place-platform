@@ -15,27 +15,20 @@ import {
   Wallet,
   MessageCircle,
   Flag,
-  Trash2,
+  Pencil,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import {
-  AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogCancel,
-  AlertDialogAction,
-} from "@/components/ui/alert-dialog";
 import { formatDate } from "@/utils/date";
+import { useState } from "react";
+import DeleteAnnouncementModal from "@/components/annoucement/DeleteAnnouncementModal";
+import { UpdateAnnouncementModal } from "@/components/annoucement/UpdateAnnouncementModal";
 
 function AnnouncementDetails() {
   const { id } = useParams();
-  const { data: announcement, isLoading, error } = useAnnouncementById(id!);
   const { data: currentUser } = useAuthUser();
+  const { data: announcement, isLoading, error } = useAnnouncementById(id!);
   const { mutate: deleteAnnouncement, isPending } = useDeleteAnnouncement();
+  const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
 
   const handleDelete = () => {
     deleteAnnouncement(id!);
@@ -150,32 +143,21 @@ function AnnouncementDetails() {
               </Button>
 
               {currentUser?.id === announcement.userId && (
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button variant="destructive" className="gap-2">
-                      <Trash2 className="w-4 h-4" />
-                      Delete
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Are you sure you want to delete this post? This action
-                        cannot be undone.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction
-                        onClick={handleDelete}
-                        disabled={isPending}
-                      >
-                        Delete
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                <>
+                  <DeleteAnnouncementModal
+                    handleDelete={handleDelete}
+                    isPending={isPending}
+                  />
+                  <Button onClick={() => setIsEditOpen(true)}>
+                    <Pencil className="w-4 h-4" />
+                    Edit
+                  </Button>
+                  <UpdateAnnouncementModal
+                    open={isEditOpen}
+                    announcement={announcement}
+                    onClose={() => setIsEditOpen(false)}
+                  />
+                </>
               )}
             </div>
           </CardContent>
