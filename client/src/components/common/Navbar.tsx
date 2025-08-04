@@ -1,8 +1,15 @@
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FilePlus, LogIn, LogOut, Sparkles } from "lucide-react";
+import { FilePlus, LogIn, LogOut, Sparkles, User } from "lucide-react";
 import { useAuthUser } from "@/hooks/authHook/useAuthUser";
 import { useLogout } from "@/hooks/authHook/useLogout";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { motion } from "framer-motion";
 
 function Navbar() {
   const { data: user, isLoading } = useAuthUser();
@@ -57,25 +64,45 @@ function Navbar() {
             </div>
           ) : user ? (
             <>
-              <li className="text-sm text-muted-foreground">
-                👋 Hello,{" "}
-                <span className="font-medium text-foreground">
-                  {user.username}
-                </span>
-              </li>
               <li>
-                <Button
-                  variant="outline"
-                  onClick={() => logout()}
-                  disabled={isLoggingOut}
-                  className="flex items-center"
-                >
-                  <LogOut className="mr-2 w-4 h-4 text-destructive" />
-                  Logout
-                  {isLoggingOut && (
-                    <span className="ml-2 animate-spin">🔄</span>
-                  )}
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="relative p-0 w-9 h-9 rounded-full"
+                    >
+                      <span className="flex items-center justify-center w-full h-full bg-primary text-white rounded-full font-semibold text-sm uppercase">
+                        {user.username.charAt(0)}
+                      </span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    asChild
+                    align="end"
+                    className="w-40 mt-2 bg-popover"
+                  >
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Link to={`/profile/${user.id}`}>
+                        <DropdownMenuItem>
+                          <User className="mr-2 h-4 w-4" />
+                          Account
+                        </DropdownMenuItem>
+                      </Link>
+                      <DropdownMenuItem
+                        onClick={() => logout()}
+                        disabled={isLoggingOut}
+                      >
+                        <LogOut className="mr-2 h-4 w-4 text-destructive" />
+                        {isLoggingOut ? "Logging out..." : "Logout"}
+                      </DropdownMenuItem>
+                    </motion.div>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </li>
             </>
           ) : (
@@ -95,7 +122,7 @@ function Navbar() {
                 className="flex items-center cursor-pointer"
               >
                 <FilePlus className="mr-2 w-4 h-4 text-primary" />
-                Post an annoucement
+                Post an announcement
               </Button>
             </NavLink>
           </li>

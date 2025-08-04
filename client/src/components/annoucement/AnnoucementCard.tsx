@@ -76,11 +76,9 @@ export default function AnnouncementScroller() {
                       />
                       <div className="p-3 space-y-1">
                         <div className="flex items-center gap-2 mb-2">
-                          <img
-                            src={`https://i.pravatar.cc/150?u=${item.user.id}`}
-                            alt={item.user.username}
-                            className="w-8 h-8 rounded-full"
-                          />
+                          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-primary text-white text-sm font-semibold uppercase">
+                            {item.user.username.charAt(0)}
+                          </div>
                           <div>
                             <p className="text-sm font-medium">
                               {item.user.username}
