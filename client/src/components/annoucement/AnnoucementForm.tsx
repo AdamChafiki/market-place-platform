@@ -58,6 +58,7 @@ export default function AnnoucementForm() {
     if (values.image) {
       formData.append("image", values.image);
     }
+
     createAnnoucement(formData);
     form.reset();
   }

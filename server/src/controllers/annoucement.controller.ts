@@ -49,7 +49,21 @@ export const updateAnnouncement = expressAsyncHandler(
   async (req: Request, res: Response) => {
     const { id } = req.params;
     const { userId } = req.user;
-    const updated = await updateAnnouncementService(id, userId, req.body);
+
+    let imageUrl: string | undefined;
+
+    if (req.file) {
+      const uploadResult = await uploadImageToCloudinary(
+        `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`
+      );
+      imageUrl = uploadResult.secure_url;
+    }
+
+    const updated = await updateAnnouncementService(id, userId, {
+      ...req.body,
+      imageUrl,
+    });
+
     res.status(StatusCodes.OK).json({ announcement: updated });
   }
 );
