@@ -87,7 +87,7 @@ function Navbar() {
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <Link to={`/profile/${user.id}`}>
+                      <Link to={`/account`}>
                         <DropdownMenuItem>
                           <User className="mr-2 h-4 w-4" />
                           Account

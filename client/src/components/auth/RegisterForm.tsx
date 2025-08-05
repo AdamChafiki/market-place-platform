@@ -1,5 +1,3 @@
-"use client";
-
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -50,9 +48,7 @@ function RegisterForm() {
     },
   });
 
-  // Handle step 1 validation and navigation
   const handleNextStep = async () => {
-    // Validate only step 1 fields
     const step1Data = {
       username: form.getValues("username"),
       email: form.getValues("email"),
@@ -77,6 +73,7 @@ function RegisterForm() {
     console.log("Submitted", values);
     signup(values);
     form.reset();
+    navigate("/login");
   }
 
   return (

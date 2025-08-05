@@ -9,8 +9,17 @@ const AppRouter = () => {
       <ScrollToTop />
       <BaseLayout>
         <Routes>
-          {routes.map(({ path, element }) => (
-            <Route key={path} path={path} element={element} />
+          {routes.map((route) => (
+            <Route key={route.path} path={route.path} element={route.element}>
+              {route.children?.map((child) => (
+                <Route
+                  key={child.path || "index"}
+                  index={child.index}
+                  path={child.path}
+                  element={child.element}
+                />
+              ))}
+            </Route>
           ))}
         </Routes>
       </BaseLayout>

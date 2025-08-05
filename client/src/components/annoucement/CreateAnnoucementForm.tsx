@@ -16,7 +16,6 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import useCreateAnnouncement from "@/hooks/announcementHook/useCreateAnnouncement";
 
-// ✅ Schema definition
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
   description: z.string().min(10, "Description too short"),
