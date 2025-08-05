@@ -27,4 +27,13 @@ interface GetAnnouncementsResponse {
   announcements: Announcement[];
 }
 
-export type { RegisterInterface, GetAnnouncementsResponse };
+interface UpdateProfileInterface {
+  username: string;
+  email: string;
+}
+
+export type {
+  RegisterInterface,
+  GetAnnouncementsResponse,
+  UpdateProfileInterface,
+};

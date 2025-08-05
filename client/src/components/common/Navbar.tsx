@@ -1,4 +1,4 @@
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { FilePlus, LogIn, LogOut, Sparkles, User } from "lucide-react";
 import { useAuthUser } from "@/hooks/authHook/useAuthUser";

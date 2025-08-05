@@ -1,3 +1,4 @@
+// src/views/account/AccountView.tsx
 import AccountSidebar from "@/components/account/AccountSidebar.tsx";
 import { Outlet } from "react-router-dom";
 

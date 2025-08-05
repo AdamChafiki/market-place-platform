@@ -8,6 +8,7 @@ export const getProfileService = async (userId: string) => {
     select: {
       id: true,
       username: true,
+      email: true,
       role: true,
     },
   });
