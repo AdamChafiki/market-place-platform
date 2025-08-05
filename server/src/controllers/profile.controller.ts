@@ -1,34 +1,35 @@
-import { prisma } from '@/lib/prisma';
-import { AppError } from '@/utils/AppError';
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
-import { User } from 'generated/prisma';
 import { StatusCodes } from 'http-status-codes';
+import {
+  getProfileService,
+  updateProfileService,
+  deleteProfileService,
+} from '@/services/profile.service';
 
-/**
- * @description profile User
- * @router /api/profile
- * @method GET
- * @access private
- */
-
-const profile = asyncHandler(async (req: Request, res: Response) => {
+export const profile = asyncHandler(async (req: Request, res: Response) => {
   const { userId } = req.user;
-  const user: Pick<User, 'id' | 'username' | 'role'> | null =
-    await prisma.user.findUnique({
-      where: { id: userId },
-      select: {
-        id: true,
-        username: true,
-        role: true,
-      },
-    });
-
-  if (!user) {
-    throw new AppError('User not found', StatusCodes.NOT_FOUND);
-  }
-
+  const user = await getProfileService(userId);
   res.status(StatusCodes.OK).json({ user });
 });
 
-export { profile };
+export const updateProfile = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { userId } = req.user;
+    const { username, email } = req.body;
+
+    const user = await updateProfileService(userId, {
+      username,
+      email,
+    });
+    res.status(StatusCodes.OK).json({ user });
+  }
+);
+
+export const deleteProfile = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { userId } = req.user;
+    await deleteProfileService(userId);
+    res.status(StatusCodes.NO_CONTENT).send();
+  }
+);

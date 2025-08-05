@@ -1,4 +1,3 @@
-
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -40,7 +39,7 @@ export default function CreateAnnoucementForm() {
       location: "",
       phone: "",
       price: 0,
-      hidePhone: false,
+      hidePhone: true,
       image: null,
     },
   });

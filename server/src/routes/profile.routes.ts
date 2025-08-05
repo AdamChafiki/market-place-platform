@@ -1,10 +1,17 @@
 import express from 'express';
-
+import {
+  profile,
+  updateProfile,
+  deleteProfile,
+} from '@/controllers/profile.controller';
 import jwtMiddleware from '@/middlewares/jwt.middleware';
-import { profile } from '@/controllers/profile.controller';
 
-const profileRoute = express.Router();
+const router = express.Router();
 
-profileRoute.get('/me', jwtMiddleware, profile);
+router.use(jwtMiddleware);
 
-export default profileRoute;
+router.get('/me', profile);
+router.put('/', updateProfile);
+router.delete('/', deleteProfile);
+
+export default router;
