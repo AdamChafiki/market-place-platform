@@ -19,6 +19,9 @@ export default function useUpdateAnnouncement() {
       queryClient.invalidateQueries({
         queryKey: ["announcement", data.announcement?.id],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["announcements-by-user-id"],
+      });
     },
 
     onError: (error) => {

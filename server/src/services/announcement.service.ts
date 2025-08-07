@@ -117,3 +117,13 @@ export const deleteAnnouncementService = async (
 
   await prisma.announcement.delete({ where: { id } });
 };
+
+export const getAllAnnouncementsByUserIdService = async (
+  userId: string
+): Promise<Announcement[]> => {
+  console.log(userId);
+
+  return await prisma.announcement.findMany({
+    where: { userId },
+  });
+};

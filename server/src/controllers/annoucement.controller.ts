@@ -8,6 +8,7 @@ import {
   getAnnouncementByIdService,
   updateAnnouncementService,
   deleteAnnouncementService,
+  getAllAnnouncementsByUserIdService,
 } from '@/services/announcement.service';
 import { uploadImageToCloudinary } from '@/utils/Cloudinary';
 
@@ -76,5 +77,19 @@ export const deleteAnnouncement = expressAsyncHandler(
 
     await deleteAnnouncementService(id, userId);
     res.status(StatusCodes.NO_CONTENT).send();
+  }
+);
+
+export const getAllAnnouncementsByUserId = expressAsyncHandler(
+  async (req: Request, res: Response) => {
+    const { userId } = req.user;
+    console.log('not caching');
+
+    console.log(userId);
+
+    const announcements = await getAllAnnouncementsByUserIdService(userId);
+    console.log(announcements);
+
+    res.status(StatusCodes.OK).json({ announcements });
   }
 );

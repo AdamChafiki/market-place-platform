@@ -32,3 +32,10 @@ export const deleteAnnouncement = async (id: string) => {
   const response = await api.delete(`/announcement/${id}`);
   return response.data;
 };
+
+export const getAllAnnouncementsByUserId = async () => {
+  const response = await api.get(`/announcement/profile`);
+  console.log(response);
+
+  return response.data.announcements;
+};

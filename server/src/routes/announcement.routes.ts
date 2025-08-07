@@ -6,11 +6,10 @@ import {
   getAnnouncementById,
   updateAnnouncement,
   deleteAnnouncement,
+  getAllAnnouncementsByUserId,
 } from '@/controllers/annoucement.controller';
 import jwtMiddleware from '@/middlewares/jwt.middleware';
-import { validateData } from '@/middlewares/validation.middleware';
 import { upload } from '@/middlewares/upload.middleware';
-import { announcementSchema } from '@/shemas/announcement.shema';
 
 const router = express.Router();
 
@@ -19,6 +18,7 @@ router
   .get(getAllAnnouncements)
   .post(jwtMiddleware, upload.single('image'), createAnnouncement);
 
+router.route('/profile').get(jwtMiddleware, getAllAnnouncementsByUserId);
 router
   .route('/:id')
   .get(getAnnouncementById)
