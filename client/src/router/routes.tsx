@@ -11,6 +11,8 @@ import PrivateRoute from "@/components/routes/PrivateOnlyRoute";
 import AccountView from "@/views/account/AccountView";
 import AccountAnnouncements from "@/components/account/AccountAnnouncements";
 import AccountSettings from "@/components/account/AccountSettings";
+import path from "path";
+import AccountMessages from "@/components/account/AccountMessages";
 
 export const routes = [
   { path: "/", element: <HomeView /> },
@@ -53,6 +55,7 @@ export const routes = [
     children: [
       { index: true, element: <AccountSettings /> },
       { path: "announcements", element: <AccountAnnouncements /> },
+      { path: "messages", element: <AccountMessages /> },
     ],
   },
   {

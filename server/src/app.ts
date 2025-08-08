@@ -10,6 +10,7 @@ import authRouter from '@/routes/auth.routes';
 import profileRoute from '@/routes/profile.routes';
 import { errorHandler, notFound } from '@/middlewares/errors.middleware';
 import annoucementRouter from '@/routes/announcement.routes';
+import messagesRouter from '@/routes/message.routes';
 import { generalLimiter } from '@/middlewares/rateLimiter.middleware';
 
 const app = express();
@@ -36,6 +37,8 @@ app.get('/test', (_, res) => {
 app.use('/api/auth', authRouter);
 app.use('/api/profile', profileRoute);
 app.use('/api/announcement', annoucementRouter);
+app.use('/api/messages', messagesRouter);
+
 app.all('*catchall', notFound);
 
 app.use(errorHandler);

@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import {
   AlertTriangle,
   MapPin,
-  Phone,
   User,
   Wallet,
   MessageCircle,
@@ -22,6 +21,7 @@ import { formatDate } from "@/utils/date";
 import { useState } from "react";
 import DeleteAnnouncementModal from "@/components/annoucement/DeleteAnnouncementModal";
 import { UpdateAnnouncementModal } from "@/components/annoucement/UpdateAnnouncementModal";
+import { SendMessageModal } from "@/components/message/SendMessageModal";
 
 function AnnouncementDetails() {
   const { id } = useParams();
@@ -29,6 +29,7 @@ function AnnouncementDetails() {
   const { data: announcement, isLoading, error } = useAnnouncementById(id!);
   const { mutate: deleteAnnouncement, isPending } = useDeleteAnnouncement();
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
+  const [isMessageOpen, setIsMessageOpen] = useState<boolean>(false);
 
   const handleDelete = () => {
     deleteAnnouncement(id!);
@@ -101,12 +102,6 @@ function AnnouncementDetails() {
               </div>
 
               <div className="flex items-center gap-2">
-                <Phone className="text-muted-foreground w-5 h-5" />
-                <span className="font-medium">Phone:</span>{" "}
-                {announcement.hidePhone ? "Hidden" : announcement.phoneNumber}
-              </div>
-
-              <div className="flex items-center gap-2">
                 <User className="text-muted-foreground w-5 h-5" />
                 <span className="font-medium">User:</span>{" "}
                 {announcement.user?.username || "N/A"}
@@ -116,25 +111,33 @@ function AnnouncementDetails() {
             <Separator />
 
             <div className="flex flex-wrap gap-3 pt-2">
-              <Button variant="default" className="gap-2">
-                <MessageCircle className="w-4 h-4" />
-                Send Message
-              </Button>
-
-              {!announcement.hidePhone && (
-                <a
-                  href={`https://wa.me/${announcement.phoneNumber}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Button
-                    variant="outline"
-                    className="gap-2 text-green-600 border-green-500 hover:bg-green-50"
+              {currentUser?.id !== announcement.userId && (
+                <>
+                  <a
+                    href={`https://wa.me/${announcement.phoneNumber}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    <MessageCircle className="w-4 h-4" />
-                    WhatsApp
+                    <Button
+                      variant="outline"
+                      className="gap-2 text-green-600 border-green-500 hover:bg-green-50"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      WhatsApp
+                    </Button>
+                  </a>
+                  <Button
+                    onClick={() => setIsMessageOpen(true)}
+                    className="gap-2 textprimarygreen-600 border-primary-500 hover:bg-primary-50"
+                  >
+                    Send message
                   </Button>
-                </a>
+                  <SendMessageModal
+                    receiverId={announcement.userId}
+                    isOpen={isMessageOpen}
+                    onClose={() => setIsMessageOpen(false)}
+                  />
+                </>
               )}
 
               <Button variant="destructive" className="gap-2 ml-auto">

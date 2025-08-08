@@ -32,8 +32,25 @@ interface UpdateProfileInterface {
   email: string;
 }
 
+interface CreateMessagePayload {
+  receiverId: string;
+  content: string;
+}
+
+interface Message {
+  id: string;
+  content: string;
+  senderId: string;
+  receiverId: string;
+  createdAt: string;
+  sender: { id: string; username: string };
+  receiver: { id: string; username: string };
+}
+
 export type {
   RegisterInterface,
   GetAnnouncementsResponse,
   UpdateProfileInterface,
+  CreateMessagePayload,
+  Message,
 };

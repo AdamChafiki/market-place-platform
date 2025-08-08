@@ -76,7 +76,6 @@ export default function CreateAnnoucementForm() {
             onSubmit={form.handleSubmit(onSubmit)}
             className="grid grid-cols-1 md:grid-cols-2 gap-4"
           >
-            {/* Name */}
             <div className="col-span-1">
               <FormField
                 control={form.control}
@@ -93,7 +92,6 @@ export default function CreateAnnoucementForm() {
               />
             </div>
 
-            {/* Location */}
             <div className="col-span-1">
               <FormField
                 control={form.control}
@@ -110,7 +108,6 @@ export default function CreateAnnoucementForm() {
               />
             </div>
 
-            {/* Phone */}
             <div className="col-span-1">
               <FormField
                 control={form.control}
@@ -127,7 +124,6 @@ export default function CreateAnnoucementForm() {
               />
             </div>
 
-            {/* Price */}
             <div className="col-span-1">
               <FormField
                 control={form.control}
@@ -151,7 +147,6 @@ export default function CreateAnnoucementForm() {
               />
             </div>
 
-            {/* Description (full width) */}
             <div className="col-span-1 md:col-span-2">
               <FormField
                 control={form.control}
@@ -172,7 +167,6 @@ export default function CreateAnnoucementForm() {
               />
             </div>
 
-            {/* Hide Phone (full width) */}
             <div className="col-span-1 md:col-span-2">
               <FormField
                 control={form.control}
@@ -193,7 +187,6 @@ export default function CreateAnnoucementForm() {
               />
             </div>
 
-            {/* Image Upload (full width) */}
             <div className="col-span-1 md:col-span-2">
               <FormField
                 control={form.control}
@@ -214,7 +207,6 @@ export default function CreateAnnoucementForm() {
               />
             </div>
 
-            {/* Submit Button (full width) */}
             <div className="col-span-1 md:col-span-2">
               <Button type="submit" disabled={isLoading} className="w-full">
                 Submit
