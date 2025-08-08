@@ -28,7 +28,7 @@ function Navbar() {
           <ul className="flex items-center space-x-4">
             <li>
               <NavLink
-                to="/browse"
+                to="/browze"
                 className={({ isActive }) =>
                   `relative inline-block px-1 py-2 text-sm ${
                     isActive
@@ -38,20 +38,6 @@ function Navbar() {
                 }
               >
                 Browse
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/boutique"
-                className={({ isActive }) =>
-                  `relative inline-block px-1 py-2 text-sm ${
-                    isActive
-                      ? "text-primary"
-                      : "text-muted-foreground hover:text-primary"
-                  }`
-                }
-              >
-                Boutique
               </NavLink>
             </li>
           </ul>
