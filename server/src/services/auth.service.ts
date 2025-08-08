@@ -56,8 +56,8 @@ export const loginUser = async (
     throw new AppError('Invalid credentials', StatusCodes.BAD_REQUEST);
   }
 
-  const accessToken = generateAccessToken(user.id);
-  const refreshToken = generateRefreshToken(user.id);
+  const accessToken = generateAccessToken(Number(user.id));
+  const refreshToken = generateRefreshToken(Number(user.id));
 
   return { accessToken, refreshToken };
 };

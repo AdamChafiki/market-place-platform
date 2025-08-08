@@ -8,11 +8,10 @@ const config: Config = {
   nodeEnv: process.env.NODE_ENV || 'development',
   databaseUrl: process.env.DATABASE_URL || 'error',
   authSecret: process.env.AUTH_SECRET || 'default_access_secret',
-  authSecretExpiresIn: process.env.AUTH_SECRET_EXPIRES_IN || '15m',
+  authSecretExpiresIn: 7,
   authRefreshSecret:
     process.env.AUTH_REFRESH_SECRET || 'default_refresh_secret',
-  authRefreshSecretExpiresIn:
-    process.env.AUTH_REFRESH_SECRET_EXPIRES_IN || '7d',
+  authRefreshSecretExpiresIn: 15,
   clientUrl: process.env.CLIENT_URL || 'http://localhost:5173',
   cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME || '',
   cloudinaryApiKey: process.env.CLOUDINARY_API_KEY || '',

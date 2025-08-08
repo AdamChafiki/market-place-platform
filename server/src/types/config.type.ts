@@ -3,9 +3,9 @@ interface Config {
   nodeEnv: string;
   databaseUrl: string;
   authSecret: string;
-  authSecretExpiresIn: string;
+  authSecretExpiresIn: number;
   authRefreshSecret: string;
-  authRefreshSecretExpiresIn: string;
+  authRefreshSecretExpiresIn: number;
   clientUrl: string;
   cloudinaryCloudName: string;
   cloudinaryApiKey: string;
