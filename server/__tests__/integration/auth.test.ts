@@ -10,7 +10,7 @@ describe('Auth Routes', () => {
   });
 
   it('should register a user successfully', async () => {
-    const mockUser = { id: 1, email: 'test@examplee.com', token: 'mockToken' };
+    const mockUser = { id: 1, email: 'test@example.com', token: 'mockToken' };
     (authService.registerUser as jest.Mock).mockResolvedValue(mockUser);
 
     const response = await request(app).post('/api/auth/register').send({
